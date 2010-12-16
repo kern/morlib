@@ -1,43 +1,71 @@
 package com.bhrobotics.morlib;
 
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Vector;
+import java.util.Enumeration;
 
 public class EventEmitter {
-    private HashMap listeners = new HashMap();
+    private Queue queue;
+    private Hashtable listeners = new Hashtable();
     
-    public HashMap getListeners() {
+    public EventEmitter(Queue q) {
+        queue = q;
+    }
+    
+    public Hashtable getListeners() {
         return listeners;
     }
     
-    public void setListeners(HashMap l) {
-        listeners = l;
+    public Vector getEventListeners(String event) {
+        if(listeners.containsKey(event)) {
+            return (Vector) listeners.get(event);
+        } else {
+            Vector v = new Vector();
+            listeners.put(event, v);
+            return v;
+        }
     }
     
     public void addListener(String event, Listener listener) {
-        if(listeners.containsKey(event)) {
-            listeners.get(event).add(listener);
-        } else {
-            Vector v = new Vector();
-            v.add(listener);
-            
-            listeners.put(event, v);
-        }
+        Vector eventListeners = getEventListeners(event);
+        eventListeners.addElement(listener);
     }
     
     public void removeListener(String event, Listener listener) {
-        if(!listeners.containsKey(event)) {
-            listeners.get(event).remove(listener);
-        }
+        Vector eventListeners = getEventListeners(event);
+        eventListeners.removeElement(listener);
     }
     
-    public void emit(String event, Object obj) {
-        if(listeners.containsKey(event)) {
-            Iterator i = listeners.get(event).iterator();
-            while(i.hasNext()) {
-                Listener listener = (Listener) i.next();
-                listener.run();
-            }
+    public void emit(String name) {
+        emit(new Event(name, new Hashtable()), false);
+    }
+    
+    public void emit(String name, Hashtable data) {
+        emit(new Event(name, data), false);
+    }
+    
+    public void emit(String name, boolean flush) {
+        emit(new Event(name, new Hashtable()), flush);
+    }
+    
+    public void emit(String name, Hashtable data, boolean flush) {
+        emit(new Event(name, data), flush);
+    }
+    
+    public void emit(Event event) {
+        emit(event, false);
+    }
+    
+    public void emit(Event event, boolean flush) {
+        Vector eventListeners = getEventListeners(event.getName());
+        
+        Enumeration e = eventListeners.elements();
+        while(e.hasMoreElements()) {
+            queue.add(event, (Listener) e.nextElement());
+        }
+        
+        if(flush) {
+            eventListeners.removeAllElements();
         }
     }
 }
