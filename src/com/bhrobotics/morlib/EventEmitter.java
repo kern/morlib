@@ -61,7 +61,7 @@ public class EventEmitter {
         
         Enumeration e = eventListeners.elements();
         while(e.hasMoreElements()) {
-            queue.add(event, (Listener) e.nextElement());
+            queue.addTail(event, (Listener) e.nextElement());
         }
         
         if(flush) {

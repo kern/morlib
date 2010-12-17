@@ -1,11 +1,27 @@
 package com.bhrobotics.morlib;
 
-import java.util.Stack;
+import java.util.Vector;
 import java.util.Enumeration;
 
-public class Queue extends Stack {
-    public void add(Event event, Listener listener) {
-        push(new QueueItem(event, listener));
+public class Queue extends Vector {
+    public QueueItem getHead() {
+        QueueItem item = (QueueItem) firstElement();
+        removeElement(item);
+        return item;
+    }
+    
+    public void addHead(Event event, Listener listener) {
+        insertElementAt(new QueueItem(event, listener), 0);
+    }
+    
+    public QueueItem getTail() {
+        QueueItem item = (QueueItem) lastElement();
+        removeElement(item);
+        return item;
+    }
+    
+    public void addTail(Event event, Listener listener) {
+        addElement(new QueueItem(event, listener));
     }
     
     public void clear() {
@@ -19,7 +35,7 @@ public class Queue extends Stack {
         
         for(int i = 0; i < size(); i++) {
             QueueItem item = currentTickItems[i];
-            item.getListener().run(item.getEvent());
+            item.getListener().handle(item.getEvent());
         }
     }
 }

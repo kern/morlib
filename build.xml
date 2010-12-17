@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project basedir="." default="help" name="morlib">
   <property name="user.properties.file" value="build.properties"/>
+  <property name="junit.src.dir" value="./test"/>
+  <property name="junit.build.dir" value="./build/junit"/>
+  <property name="junit.reports.dir" value="./build/reports"/>
+  <property name="lib.dir" value="./lib"/>
   <property file="${user.home}/.sunspotfrc.properties"/>
   <import file="${sunspot.home}/build.xml"/>
+  
+  <target name="compile-junit" depends="init">
+    <mkdir dir="${junit.build.dir}"/>
+    
+    <javac
+      srcdir="${junit.src.dir}"
+      destdir="${junit.build.dir}"
+      includeAntRuntime="no"
+      includeJavaRuntime="no"
+      bootclasspath="${sunspot.bootclasspath}${path.separator}${lib.dir}/junit.jar"
+      classpath="${build.dir}${path.separator}${sunspot.classpath}${path.separator}${lib.dir}${path.separator}${utility.jars.on.classpath}"
+      target="1.2"
+      source="1.3"
+      debug="true"
+      fork="yes"
+      includes="${spot.javac.include.src}"
+      excludes="${spot.javac.exclude.src}" />
+  </target>
+  
+  <target name="run-junit" depends="compile-junit">
+    <mkdir dir="${junit.reports.dir}"/>
+    
+    <junit printsummary="yes" haltonfailure="yes">
+      <classpath>
+        <pathelement location="${junit.build.dir}"/>
+        <pathelement location="${build.dir}"/>
+        <pathelement location="${sunspot.classpath}"/>
+        <pathelement location="${utility.jars.on.classpath}"/>
+        <pathelement location="${lib.dir}/junit.jar"/>
+      </classpath>
+      
+      <formatter type="plain"/>
+      
+      <batchtest fork="yes" todir="${junit.reports.dir}">
+        <fileset dir="${junit.src.dir}">
+          <include name="**/*Test.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
 </project>

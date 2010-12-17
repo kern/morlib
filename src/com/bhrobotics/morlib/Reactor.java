@@ -12,6 +12,12 @@ public class Reactor extends Thread {
         while(true) {
             if(running || forceTick) {
                 tick();
+            } else {
+                try {
+                    wait(500);
+                } catch(InterruptedException e) {
+                    // Ignored.
+                }
             }
             
             forceTick = false;
@@ -31,6 +37,7 @@ public class Reactor extends Thread {
     }
     
     public void tick() {
+        process.emit("tick");
         process.emit("nextTick", true);
         queue.flush();
     }
@@ -41,6 +48,7 @@ public class Reactor extends Thread {
     
     public void forceTick() {
         forceTick = true;
+        notify();
     }
     
     public Queue getQueue() {
