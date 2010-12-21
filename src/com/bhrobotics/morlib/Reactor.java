@@ -24,13 +24,13 @@ public class Reactor extends Thread {
         }
     }
     
-    public void start() {
+    public void startTicking() {
         process.emit("start");
         running = true;
         forceTick();
     }
     
-    public void stop() {
+    public void stopTicking() {
         process.emit("stop");
         running = false;
         forceTick();

@@ -11,7 +11,11 @@ public class Queue extends Vector {
     }
     
     public void addHead(Event event, Listener listener) {
-        insertElementAt(new QueueItem(event, listener), 0);
+        addHead(new QueueItem(event, listener));
+    }
+    
+    public void addHead(QueueItem item) {
+        insertElementAt(item, 0);
     }
     
     public QueueItem getTail() {
@@ -21,7 +25,11 @@ public class Queue extends Vector {
     }
     
     public void addTail(Event event, Listener listener) {
-        addElement(new QueueItem(event, listener));
+        addTail(new QueueItem(event, listener));
+    }
+    
+    public void addTail(QueueItem item) {
+        addElement(item);
     }
     
     public void clear() {
@@ -29,11 +37,11 @@ public class Queue extends Vector {
     }
     
     public void flush() {
-        QueueItem[] currentTickItems = {};
+        QueueItem[] currentTickItems = new QueueItem[size()];
         copyInto(currentTickItems);
         clear();
         
-        for(int i = 0; i < size(); i++) {
+        for(int i = 0; i < currentTickItems.length; i++) {
             QueueItem item = currentTickItems[i];
             item.getListener().handle(item.getEvent());
         }

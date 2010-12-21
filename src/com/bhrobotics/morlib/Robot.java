@@ -6,7 +6,7 @@ public class Robot extends SimpleRobot {
     private Reactor reactor = new Reactor();
     
     public void autonomous() {
-        reactor.start();
+        reactor.startTicking();
         getProcess().emit("startAutonomous");
         
         while(isAutonomous() && isSystemActive()) {
@@ -14,11 +14,11 @@ public class Robot extends SimpleRobot {
         }
         
         getProcess().emit("stopAutonomous");
-        reactor.stop();
+        reactor.stopTicking();
     }
     
     public void operatorControl() {
-        reactor.start();
+        reactor.startTicking();
         getProcess().emit("startOperatorControl");
         
         while(isOperatorControl() && isSystemActive()) {
@@ -26,7 +26,7 @@ public class Robot extends SimpleRobot {
         }
         
         getProcess().emit("stopOperatorControl");
-        reactor.stop();
+        reactor.stopTicking();
     }
     
     public Reactor getReactor() {

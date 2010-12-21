@@ -15,15 +15,7 @@ public class Event {
         return name;
     }
     
-    public void setName(String n) {
-        name = n;
-    }
-    
     public Hashtable getData() {
         return data;
-    }
-    
-    public void setData(Hashtable d) {
-        data = d;
     }
 }
