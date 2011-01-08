@@ -3,14 +3,14 @@ package com.bhrobotics.morlib;
 import java.util.Vector;
 
 public class Reactor extends Thread {
-    private boolean running      = false;
+    private boolean ticking      = false;
     private boolean forceTick    = false;
     private Queue queue          = new Queue();
     private EventEmitter process = new EventEmitter(queue);
     
     public void run() {
         while(true) {
-            if(running || forceTick) {
+            if(ticking || forceTick) {
                 tick();
             } else {
                 try {
@@ -25,34 +25,38 @@ public class Reactor extends Thread {
     }
     
     public void startTicking() {
-        process.emit("start");
-        running = true;
+        getProcess().emit("start");
+        ticking = true;
         forceTick();
     }
     
     public void stopTicking() {
-        process.emit("stop");
-        running = false;
+        getProcess().emit("stop");
+        ticking = false;
         forceTick();
     }
     
     public void tick() {
-        process.emit("tick");
-        process.emit("nextTick", true);
-        queue.flush();
+        getProcess().emit("tick");
+        getProcess().emit("nextTick", true);
+        getQueue().flush();
     }
     
-    public boolean isRunning() {
-        return running;
+    public boolean isTicking() {
+        return ticking;
     }
     
-    public void forceTick() {
+    public synchronized void forceTick() {
         forceTick = true;
         notify();
     }
     
     public Queue getQueue() {
         return queue;
+    }
+    
+    public void setProcess(EventEmitter p) {
+        process = p;
     }
     
     public EventEmitter getProcess() {

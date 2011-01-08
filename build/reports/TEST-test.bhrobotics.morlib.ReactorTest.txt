@@ -1,4 +1,12 @@
 Testsuite: test.bhrobotics.morlib.ReactorTest
-Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.007 sec
+Tests run: 4, Failures: 0, Errors: 0, Time elapsed: 0.15 sec
+------------- Standard Error -----------------
+Exception in thread "Thread-3" java.lang.IllegalMonitorStateException
+	at java.lang.Object.wait(Native Method)
+	at com.bhrobotics.morlib.Reactor.run(Reactor.java:17)
+------------- ---------------- ---------------
 
 Testcase: testCtor took 0.003 sec
+Testcase: testQueue took 0 sec
+Testcase: testProcess took 0 sec
+Testcase: testTicking took 0.143 sec
