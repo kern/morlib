@@ -16,7 +16,7 @@ public class EventEmitter {
         return listeners;
     }
     
-    public Vector getEventListeners(String event) {
+    public Vector getListeners(String event) {
         if(listeners.containsKey(event)) {
             return (Vector) listeners.get(event);
         } else {
@@ -27,12 +27,12 @@ public class EventEmitter {
     }
     
     public void addListener(String event, Listener listener) {
-        Vector eventListeners = getEventListeners(event);
+        Vector eventListeners = getListeners(event);
         eventListeners.addElement(listener);
     }
     
     public void removeListener(String event, Listener listener) {
-        Vector eventListeners = getEventListeners(event);
+        Vector eventListeners = getListeners(event);
         eventListeners.removeElement(listener);
     }
     
@@ -57,7 +57,7 @@ public class EventEmitter {
     }
     
     public void emit(Event event, boolean flush) {
-        Vector eventListeners = getEventListeners(event.getName());
+        Vector eventListeners = getListeners(event.getName());
         
         Enumeration e = eventListeners.elements();
         while(e.hasMoreElements()) {

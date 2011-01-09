@@ -5,15 +5,15 @@
   <import file="${sunspot.home}/build.xml" />
   
   <target name="compile-junit" depends="init">
-    <mkdir dir="${junit.build.dir}" />
+    <mkdir dir="${build.dir}" />
     
     <javac
       srcdir="${test.dir}"
-      destdir="${junit.build.dir}"
+      destdir="${build.dir}"
       includeAntRuntime="no"
       includeJavaRuntime="no"
       bootclasspath="${sunspot.bootclasspath}"
-      classpath="${build.dir}${path.separator}${sunspot.classpath}${path.separator}${lib.dir}${path.separator}${utility.jars.on.classpath}${path.separator}${junit.path}${path.separator}${mockito.path}"
+      classpath="${build.dir}${path.separator}${path.separator}${lib.dir}${sunspot.classpath}${path.separator}${utility.jars.on.classpath}${path.separator}${junit.path}${path.separator}${mockito.path}"
       target="1.2"
       source="1.3"
       debug="true"
@@ -23,11 +23,10 @@
   </target>
   
   <target name="run-junit" depends="compile-junit">
-    <mkdir dir="${junit.reports.dir}"/>
+    <mkdir dir="${junit.reports.dir}" />
     
     <junit printsummary="yes" haltonfailure="yes">
       <classpath>
-        <pathelement location="${junit.build.dir}" />
         <pathelement location="${build.dir}" />
         <pathelement location="${sunspot.classpath}" />
         <pathelement location="${utility.jars.on.classpath}" />
@@ -38,8 +37,8 @@
       <formatter type="plain" />
       
       <batchtest fork="yes" todir="${junit.reports.dir}">
-        <fileset dir="${test.dir}">
-          <include name="**/*Test.java" />
+        <fileset dir="${build.dir}">
+          <include name="**/*Test.class" />
         </fileset>
       </batchtest>
     </junit>

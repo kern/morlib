@@ -8,19 +8,19 @@ public class Reactor extends Thread {
     private Queue queue          = new Queue();
     private EventEmitter process = new EventEmitter(queue);
     
-    public void run() {
-        while(true) {
-            if(ticking || forceTick) {
+    public synchronized void run() {
+        while (true) {
+            if (ticking || forceTick) {
+                forceTick = false;
+                
                 tick();
             } else {
                 try {
                     wait(500);
-                } catch(InterruptedException e) {
+                } catch (InterruptedException e) {
                     // Ignored.
                 }
             }
-            
-            forceTick = false;
         }
     }
     
@@ -49,6 +49,10 @@ public class Reactor extends Thread {
     public synchronized void forceTick() {
         forceTick = true;
         notify();
+    }
+    
+    public void setQueue(Queue q) {
+        queue = q;
     }
     
     public Queue getQueue() {
