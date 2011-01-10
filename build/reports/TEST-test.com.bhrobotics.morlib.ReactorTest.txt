@@ -1,0 +1,9 @@
+Testsuite: test.com.bhrobotics.morlib.ReactorTest
+Tests run: 6, Failures: 0, Errors: 0, Time elapsed: 0.767 sec
+
+Testcase: testCtor took 0.002 sec
+Testcase: testQueue took 0.134 sec
+Testcase: testProcess took 0.008 sec
+Testcase: testStartStopTicking took 0.021 sec
+Testcase: testForceTick took 0.252 sec
+Testcase: testTick took 0.346 sec

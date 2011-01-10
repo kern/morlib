@@ -1,4 +1,4 @@
-package test.bhrobotics.morlib;
+package test.com.bhrobotics.morlib;
 
 import junit.framework.*;
 import org.mockito.*;
