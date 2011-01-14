@@ -1,11 +1,8 @@
-package test.com.bhrobotics.morlib;
+package com.bhrobotics.morlib;
 
 import junit.framework.*;
 import org.mockito.*;
 import edu.wpi.first.wpilibj.Timer;
-import com.bhrobotics.morlib.Reactor;
-import com.bhrobotics.morlib.EventEmitter;
-import com.bhrobotics.morlib.Queue;
 
 public class ReactorTest extends TestCase {
     public void testCtor() {

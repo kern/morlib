@@ -1,9 +1,7 @@
-package test.com.bhrobotics.morlib;
+package com.bhrobotics.morlib;
 
 import junit.framework.*;
-import com.bhrobotics.morlib.QueueItem;
-import com.bhrobotics.morlib.Event;
-import com.bhrobotics.morlib.Listener;
+import org.mockito.*;
 
 public class QueueItemTest extends TestCase {
     public void testCtor() {

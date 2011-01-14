@@ -1,11 +1,7 @@
-package test.com.bhrobotics.morlib;
+package com.bhrobotics.morlib;
 
 import junit.framework.*;
 import org.mockito.*;
-import com.bhrobotics.morlib.EventEmitter;
-import com.bhrobotics.morlib.Queue;
-import com.bhrobotics.morlib.Event;
-import com.bhrobotics.morlib.Listener;
 
 public class EventEmitterTest extends TestCase {
     public void testCtor() {
@@ -54,6 +50,5 @@ public class EventEmitterTest extends TestCase {
         Assert.assertTrue(emitter.getListeners("bar").isEmpty());
         
         emitter.emit("baz");
-        // This should work and not do anything.
     }
 }

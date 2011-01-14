@@ -1,8 +1,8 @@
-package test.com.bhrobotics.morlib;
+package com.bhrobotics.morlib;
 
 import junit.framework.*;
+import org.mockito.*;
 import java.util.Hashtable;
-import com.bhrobotics.morlib.Event;
 
 public class EventTest extends TestCase {
     public void testCtor() {
