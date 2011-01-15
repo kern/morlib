@@ -1,8 +1,0 @@
-Testsuite: com.bhrobotics.morlib.QueueTest
-Tests run: 5, Failures: 0, Errors: 0, Time elapsed: 0.171 sec
-
-Testcase: testHead took 0.001 sec
-Testcase: testTail took 0 sec
-Testcase: testClear took 0 sec
-Testcase: testOrder took 0.002 sec
-Testcase: testFlush took 0.162 sec

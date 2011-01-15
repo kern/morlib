@@ -11,16 +11,28 @@
     <javac
       srcdir="${test.dir}"
       destdir="${build.dir}"
-      includeAntRuntime="no"
-      includeJavaRuntime="no"
-      bootclasspath="${sunspot.bootclasspath}"
-      classpath="${build.dir}${path.separator}${path.separator}${lib.dir}${path.separator}${sunspot.classpath}${path.separator}${utility.jars.on.classpath}${path.separator}${junit.path}${path.separator}${mockito.path}"
+      includeantruntime="no"
+      includejavaruntime="no"
       target="1.2"
       source="1.3"
       debug="true"
       fork="yes"
       includes="${spot.javac.include.src}"
-      excludes="${spot.javac.exclude.src}" />
+      excludes="${spot.javac.exclude.src}">
+      
+      <bootclasspath>
+        <pathelement location="${sunspot.bootclasspath}" />
+      </bootclasspath>
+      
+      <classpath>
+        <pathelement location="${build.dir}" />
+        <pathelement location="${lib.dir}" />
+        <pathelement location="${sunspot.classpath}" />
+        <pathelement location="${utility.jars.on.classpath}" />
+        <pathelement location="${junit.path}" />
+        <pathelement location="${mockito.path}" />
+      </classpath>
+    </javac>
   </target>
   
   <target name="run-junit" depends="compile-junit">
@@ -29,6 +41,7 @@
     <junit printsummary="yes" haltonfailure="yes">
       <classpath>
         <pathelement location="${build.dir}" />
+        <pathelement location="${lib.dir}" />
         <pathelement location="${sunspot.classpath}" />
         <pathelement location="${utility.jars.on.classpath}" />
         <pathelement location="${junit.path}" />

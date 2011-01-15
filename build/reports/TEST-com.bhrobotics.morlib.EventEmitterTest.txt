@@ -1,6 +1,0 @@
-Testsuite: com.bhrobotics.morlib.EventEmitterTest
-Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0.254 sec
-
-Testcase: testCtor took 0.001 sec
-Testcase: testListeners took 0 sec
-Testcase: testEmit took 0.242 sec

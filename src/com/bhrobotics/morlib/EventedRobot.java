@@ -2,12 +2,22 @@ package com.bhrobotics.morlib;
 
 import edu.wpi.first.wpilibj.SimpleRobot;
 
-public class Robot extends SimpleRobot {
+public class EventedRobot extends SimpleRobot {
     private Reactor reactor = new Reactor();
+    private Listener controlListener;
+    
+    public EventedRobot() {
+        getProcess().addListener("start", controlListener);
+        getProcess().addListener("stop", controlListener);
+        getProcess().addListener("startAutonomous", controlListener);
+        getProcess().addListener("stopAutonomous", controlListener);
+        getProcess().addListener("startOperatorControl", controlListener);
+        getProcess().addListener("stopOperatorControl", controlListener);
+    }
     
     public void autonomous() {
-        reactor.startTicking();
         getProcess().emit("startAutonomous");
+        reactor.startTicking();
         
         while(isAutonomous() && isSystemActive()) {
             getWatchdog().feed();
@@ -18,8 +28,8 @@ public class Robot extends SimpleRobot {
     }
     
     public void operatorControl() {
-        reactor.startTicking();
         getProcess().emit("startOperatorControl");
+        reactor.startTicking();
         
         while(isOperatorControl() && isSystemActive()) {
             getWatchdog().feed();
