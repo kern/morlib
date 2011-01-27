@@ -4,7 +4,11 @@ import java.util.Hashtable;
 
 public class ControlListener extends Listener {
     private JoystickListener joystickListener = new JoystickListener();
-    protected EventEmitter joystickEmitter = joystickListener.getEmitter();
+    protected EventEmitter joystickEmitter    = joystickListener.getEmitter();
+    
+    private DSInputListener dsInputListener = new DSInputListener();
+    protected EventEmitter dsInputEmitter   = dsInputListener.getEmitter();
+    
     private Hashtable eventHandlers = new Hashtable();
     
     public ControlListener() {
@@ -60,14 +64,16 @@ public class ControlListener extends Listener {
     
     private class StartOperatorControlHandler implements EventHandler {
         public void execute() {
-            process.addListener("newDataAvailable", joystickListener);
+            process.bind("newDataAvailable", joystickListener);
+            process.bind("newDataAvailable", dsInputListener);
             startOperatorControl();
         }
     }
     
     private class StopOperatorControlHandler implements EventHandler {
         public void execute() {
-            process.removeListener("newDataAvailable", joystickListener);
+            process.unbind("newDataAvailable", joystickListener);
+            process.unbind("newDataAvailable", dsInputListener);
             stopOperatorControl();
         }
     }
