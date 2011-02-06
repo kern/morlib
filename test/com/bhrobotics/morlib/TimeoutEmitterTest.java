@@ -4,8 +4,11 @@ import junit.framework.*;
 import java.util.Hashtable;
 
 public class TimeoutEmitterTest extends TestCase {
+    TimeoutEmitter timeout;
+    
     public void setUp() {
         Reactor.getInstance().startTicking();
+        timeout = new TimeoutEmitter();
     }
     
     public void tearDown() {
@@ -13,14 +16,28 @@ public class TimeoutEmitterTest extends TestCase {
     }
     
     public void testCtor() {
-        TimeoutEmitter timeout = new TimeoutEmitter();
         assertNotNull(timeout);
     }
     
     public void testSchedule() {
-        TimeoutEmitter timeout = new TimeoutEmitter();
         StubListener listener = new StubListener();
         timeout.bind("timeout", listener);
+        
+        timeout.schedule("timeout", 0.5);
+        sleep(200);
+        assertFalse(listener.received);
+        sleep(500);
+        assertTrue(listener.received);
+    }
+    
+    public void testCancel() {
+        StubListener listener = new StubListener();
+        timeout.bind("timeout", listener);
+        timeout.schedule("timeout", 0.5);
+        sleep(200);
+        timeout.cancelAll();
+        sleep(500);
+        assertFalse(listener.received);
         
         timeout.schedule("timeout", 0.5);
         sleep(200);

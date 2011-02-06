@@ -17,6 +17,11 @@ public class TimeoutEmitter extends EventEmitter {
         timer.schedule(task, (long) (delay * 1000));
     }
     
+    public void cancelAll() {
+        timer.cancel();
+        timer = new Timer();
+    }
+    
     private class TimeoutTask extends TimerTask {
         private String event;
         private Hashtable data;
