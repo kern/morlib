@@ -67,7 +67,7 @@ public class EventEmitterTest extends TestCase {
         
         assertEquals(1, queue.size());
         assertSame(listener, queue.getHead().getListener());
-        assertEquals(1, emitter.getListeners("bar").size());
+        assertEquals(1, emitter.getListeners("bar", true).size());
         assertEquals(1, emitter.getListeners("all").size());
     }
     
