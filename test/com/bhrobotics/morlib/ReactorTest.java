@@ -1,82 +1,85 @@
 package com.bhrobotics.morlib;
 
 import junit.framework.*;
-import org.mockito.*;
-import edu.wpi.first.wpilibj.Timer;
 
 public class ReactorTest extends TestCase {
+    private Reactor reactor = Reactor.getInstance();
+    private Queue queue = reactor.getQueue();
+    private EventEmitter process = reactor.getProcess();
+    
     public void testCtor() {
-        Reactor reactor = new Reactor();
         Assert.assertNotNull(reactor);
     }
     
     public void testQueue() {
-        Reactor reactor = new Reactor();
-        Assert.assertNotNull(reactor.getQueue());
-        
-        Queue queue = (Queue) Mockito.mock(Queue.class);
-        reactor.setQueue(queue);
-        Assert.assertSame(queue, reactor.getQueue());
+        Assert.assertNotNull(queue);
     }
     
     public void testProcess() {
-        Reactor reactor = new Reactor();
-        Assert.assertNotNull(reactor.getProcess());
-        
-        EventEmitter process = (EventEmitter) Mockito.mock(EventEmitter.class);
-        reactor.setProcess(process);
-        Assert.assertSame(process, reactor.getProcess());
+        Assert.assertNotNull(process);
     }
     
-    public void testStartStopTicking() {
-        Reactor reactor = new Reactor();
-        
-        EventEmitter process = (EventEmitter) Mockito.mock(EventEmitter.class);
-        reactor.setProcess(process);
-        
-        reactor.start();
-        
+    public void testIsTicking() {
         Assert.assertFalse(reactor.isTicking());
         
         reactor.startTicking();
         Assert.assertTrue(reactor.isTicking());
-        ((EventEmitter) Mockito.verify(process)).emit("start");
         
         reactor.stopTicking();
         Assert.assertFalse(reactor.isTicking());
-        ((EventEmitter) Mockito.verify(process)).emit("stop");
     }
     
     public void testForceTick() {
-        Reactor reactor = new Reactor();
-        
-        EventEmitter process = (EventEmitter) Mockito.mock(EventEmitter.class);
-        reactor.setProcess(process);
-        
-        reactor.start();
+        StubListener listener = new StubListener();
+        process.bind("tick", listener);
         
         reactor.forceTick();
-        Timer.delay(0.25);
-        ((EventEmitter) Mockito.verify(process)).emit("tick");
+        sleep(200);
+        
+        Assert.assertTrue(listener.received);
     }
     
     public void testTick() {
-        Reactor reactor = new Reactor();
+        StubListener startListener    = new StubListener();
+        StubListener tickListener     = new StubListener();
+        StubListener nextTickListener = new StubListener();
+        StubListener stopListener     = new StubListener();
+        process.bind("start", startListener);
+        process.bind("tick", tickListener);
+        process.bind("nextTick", nextTickListener);
+        process.bind("stop", stopListener);
         
-        EventEmitter process = (EventEmitter) Mockito.mock(EventEmitter.class);
-        reactor.setProcess(process);
-        
-        Queue queue = (Queue) Mockito.mock(Queue.class);
-        reactor.setQueue(queue);
-        
-        reactor.start();
         reactor.startTicking();
-        ((EventEmitter) Mockito.verify(process)).emit("start");
+        sleep(200);
+        reactor.stopTicking();
+        sleep(200);
         
-        Timer.delay(0.25);
+        Assert.assertTrue(startListener.received);
+        Assert.assertTrue(tickListener.received);
+        Assert.assertTrue(nextTickListener.received);
+        Assert.assertTrue(stopListener.received);
+        Assert.assertTrue(process.getListeners("start").contains(startListener));
+        Assert.assertTrue(process.getListeners("tick").contains(tickListener));
+        Assert.assertFalse(process.getListeners("nextTick").contains(nextTickListener));
+        Assert.assertTrue(process.getListeners("stop").contains(stopListener));
+    }
+    
+    private void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            // Ignore.
+        }
+    }
+    
+    private class StubListener implements Listener {
+        public boolean received = false;
         
-        ((EventEmitter) Mockito.verify(process, Mockito.atLeastOnce())).emit("tick");
-        ((EventEmitter) Mockito.verify(process, Mockito.atLeastOnce())).emit("nextTick", true);
-        ((Queue) Mockito.verify(queue, Mockito.atLeastOnce())).flush();
+        public void handle(Event event) {
+            received = true;
+        }
+        
+        public void bound(String event, EventEmitter emitter) {}
+        public void unbound(String event, EventEmitter emitter) {}
     }
 }

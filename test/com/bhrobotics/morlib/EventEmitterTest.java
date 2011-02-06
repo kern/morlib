@@ -4,51 +4,88 @@ import junit.framework.*;
 import org.mockito.*;
 
 public class EventEmitterTest extends TestCase {
+    private Queue queue = Reactor.getInstance().getQueue();
+    private EventEmitter emitter;
+    
+    public void setUp() {
+        emitter = new EventEmitter();
+    }
+    
     public void testCtor() {
-        EventEmitter emitter = new EventEmitter(null);
         Assert.assertNotNull(emitter);
     }
     
-    public void testListeners() {
-        EventEmitter emitter = new EventEmitter(null);
-        Assert.assertNotNull(emitter.getListeners());
+    public void testBindUnbindListener() {
+        StubListener listener = new StubListener();
         
-        Assert.assertTrue(emitter.getListeners().isEmpty());
+        Assert.assertFalse(listener.boundReceived);
+        Assert.assertFalse(listener.unboundReceived);
         
-        emitter.getListeners("foo");
-        Assert.assertTrue(emitter.getListeners().containsKey("foo"));
-        Assert.assertTrue(emitter.getListeners("foo").isEmpty());
-        
-        emitter.addListener("bar", null);
+        emitter.bind("bar", listener);
         Assert.assertEquals(1, emitter.getListeners("bar").size());
-        Assert.assertTrue(emitter.getListeners("bar").contains(null));
+        Assert.assertTrue(emitter.getListeners("bar").contains(listener));
+        Assert.assertTrue(listener.boundReceived);
+        Assert.assertFalse(listener.unboundReceived);
         
-        emitter.removeListener("bar", null);
+        emitter.unbind("bar", listener);
         Assert.assertTrue(emitter.getListeners().containsKey("bar"));
+        Assert.assertTrue(emitter.getListeners("bar").isEmpty());
+        Assert.assertTrue(listener.boundReceived);
+        Assert.assertTrue(listener.unboundReceived);
+    }
+    
+    public void testTriggerNoFlush() {
+        StubListener listener1 = new StubListener();
+        StubListener listener2 = new StubListener();
+        emitter.bind("foo", listener1);
+        emitter.bind("foo", listener2);
+        
+        emitter.trigger("foo");
+        
+        Assert.assertEquals(2, queue.size());
+        Assert.assertSame(listener1, queue.getHead().getListener());
+        Assert.assertSame(listener2, queue.getTail().getListener());
+        Assert.assertEquals(2, emitter.getListeners("foo").size());
+    }
+    
+    public void testTriggerFlush() {
+        StubListener listener = new StubListener();
+        emitter.bind("bar", listener);
+        
+        emitter.trigger("bar", true);
+        
+        Assert.assertEquals(1, queue.size());
+        Assert.assertSame(listener, queue.getHead().getListener());
         Assert.assertTrue(emitter.getListeners("bar").isEmpty());
     }
     
-    public void testEmit() {
-        Queue queue = (Queue) Mockito.mock(Queue.class);
-        EventEmitter emitter = new EventEmitter(queue);
+    public void testTriggerAll() {
+        StubListener listener = new StubListener();
+        emitter.bind("all", listener);
         
-        Listener fooListener1 = (Listener) Mockito.mock(Listener.class);
-        Listener fooListener2 = (Listener) Mockito.mock(Listener.class);
-        Listener barListener = (Listener) Mockito.mock(Listener.class);
+        emitter.trigger("bar", true);
         
-        emitter.addListener("foo", fooListener1);
-        emitter.addListener("foo", fooListener2);
-        emitter.addListener("bar", barListener);
+        Assert.assertEquals(1, queue.size());
+        Assert.assertSame(listener, queue.getHead().getListener());
+        Assert.assertEquals(1, emitter.getListeners("bar").size());
+        Assert.assertEquals(1, emitter.getListeners("all").size());
+    }
+    
+    private class StubListener implements Listener {
+        public boolean boundReceived = false;
+        public boolean unboundReceived = false;
+        public boolean received = false;
         
-        emitter.emit("foo");
-        ((Queue) Mockito.verify(queue)).addTail((Event) Mockito.anyObject(), (Listener) Mockito.eq(fooListener1));
-        ((Queue) Mockito.verify(queue)).addTail((Event) Mockito.anyObject(), (Listener) Mockito.eq(fooListener2));
-        Assert.assertEquals(2, emitter.getListeners("foo").size());
+        public void handle(Event event) {
+            received = true;
+        }
         
-        emitter.emit("bar", true);
-        ((Queue) Mockito.verify(queue)).addTail((Event) Mockito.anyObject(), (Listener) Mockito.eq(barListener));
-        Assert.assertTrue(emitter.getListeners("bar").isEmpty());
+        public void bound(String event, EventEmitter emitter) {
+            boundReceived = true;
+        }
         
-        emitter.emit("baz");
+        public void unbound(String event, EventEmitter emitter) {
+            unboundReceived = true;
+        }
     }
 }
