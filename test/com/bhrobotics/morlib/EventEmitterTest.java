@@ -12,26 +12,26 @@ public class EventEmitterTest extends TestCase {
     }
     
     public void testCtor() {
-        Assert.assertNotNull(emitter);
+        assertNotNull(emitter);
     }
     
     public void testBindUnbindListener() {
         StubListener listener = new StubListener();
         
-        Assert.assertFalse(listener.boundReceived);
-        Assert.assertFalse(listener.unboundReceived);
+        assertFalse(listener.boundReceived);
+        assertFalse(listener.unboundReceived);
         
         emitter.bind("bar", listener);
-        Assert.assertEquals(1, emitter.getListeners("bar").size());
-        Assert.assertTrue(emitter.getListeners("bar").contains(listener));
-        Assert.assertTrue(listener.boundReceived);
-        Assert.assertFalse(listener.unboundReceived);
+        assertEquals(1, emitter.getListeners("bar").size());
+        assertTrue(emitter.getListeners("bar").contains(listener));
+        assertTrue(listener.boundReceived);
+        assertFalse(listener.unboundReceived);
         
         emitter.unbind("bar", listener);
-        Assert.assertTrue(emitter.getListeners().containsKey("bar"));
-        Assert.assertTrue(emitter.getListeners("bar").isEmpty());
-        Assert.assertTrue(listener.boundReceived);
-        Assert.assertTrue(listener.unboundReceived);
+        assertTrue(emitter.getListeners().containsKey("bar"));
+        assertTrue(emitter.getListeners("bar").isEmpty());
+        assertTrue(listener.boundReceived);
+        assertTrue(listener.unboundReceived);
     }
     
     public void testTriggerNoFlush() {
@@ -42,10 +42,10 @@ public class EventEmitterTest extends TestCase {
         
         emitter.trigger("foo");
         
-        Assert.assertEquals(2, queue.size());
-        Assert.assertSame(listener1, queue.getHead().getListener());
-        Assert.assertSame(listener2, queue.getTail().getListener());
-        Assert.assertEquals(2, emitter.getListeners("foo").size());
+        assertEquals(2, queue.size());
+        assertSame(listener1, queue.getHead().getListener());
+        assertSame(listener2, queue.getTail().getListener());
+        assertEquals(2, emitter.getListeners("foo").size());
     }
     
     public void testTriggerFlush() {
@@ -54,9 +54,9 @@ public class EventEmitterTest extends TestCase {
         
         emitter.trigger("bar", true);
         
-        Assert.assertEquals(1, queue.size());
-        Assert.assertSame(listener, queue.getHead().getListener());
-        Assert.assertTrue(emitter.getListeners("bar").isEmpty());
+        assertEquals(1, queue.size());
+        assertSame(listener, queue.getHead().getListener());
+        assertTrue(emitter.getListeners("bar").isEmpty());
     }
     
     public void testTriggerAll() {
@@ -65,10 +65,10 @@ public class EventEmitterTest extends TestCase {
         
         emitter.trigger("bar", true);
         
-        Assert.assertEquals(1, queue.size());
-        Assert.assertSame(listener, queue.getHead().getListener());
-        Assert.assertEquals(1, emitter.getListeners("bar").size());
-        Assert.assertEquals(1, emitter.getListeners("all").size());
+        assertEquals(1, queue.size());
+        assertSame(listener, queue.getHead().getListener());
+        assertEquals(1, emitter.getListeners("bar").size());
+        assertEquals(1, emitter.getListeners("all").size());
     }
     
     private class StubListener implements Listener {

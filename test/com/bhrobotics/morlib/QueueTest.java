@@ -14,20 +14,20 @@ public class QueueTest extends TestCase {
         QueueItem head = new QueueItem(null, null);
         
         queue.addHead(head);
-        Assert.assertSame(head, queue.getHead());
+        assertSame(head, queue.getHead());
         
         queue.addHead(null, null);
-        Assert.assertNotSame(head, queue.getHead());
+        assertNotSame(head, queue.getHead());
     }
     
     public void testTail() {
         QueueItem tail = new QueueItem(null, null);
         
         queue.addTail(tail);
-        Assert.assertSame(tail, queue.getTail());
+        assertSame(tail, queue.getTail());
         
         queue.addTail(null, null);
-        Assert.assertNotSame(tail, queue.getTail());
+        assertNotSame(tail, queue.getTail());
     }
     
     public void testClear() {
@@ -35,11 +35,11 @@ public class QueueTest extends TestCase {
             queue.addTail(null, null);
         }
         
-        Assert.assertEquals(5, queue.size());
+        assertEquals(5, queue.size());
         
         queue.clear();
         
-        Assert.assertEquals(0, queue.size());
+        assertEquals(0, queue.size());
     }
     
     public void testOrder() {
@@ -49,16 +49,16 @@ public class QueueTest extends TestCase {
         queue.addTail(head);
         queue.addTail(tail);
         
-        Assert.assertSame(head, queue.getHead());
-        Assert.assertSame(tail, queue.getTail());
+        assertSame(head, queue.getHead());
+        assertSame(tail, queue.getTail());
         
         queue.clear();
         
         queue.addHead(tail);
         queue.addHead(head);
         
-        Assert.assertSame(head, queue.getHead());
-        Assert.assertSame(tail, queue.getTail());
+        assertSame(head, queue.getHead());
+        assertSame(tail, queue.getTail());
     }
     
     public void testFlush() {
@@ -73,13 +73,13 @@ public class QueueTest extends TestCase {
         
         queue.addTail(head);
         queue.addTail(tail);
-        Assert.assertEquals(2, queue.size());
+        assertEquals(2, queue.size());
         
         queue.flush();
-        Assert.assertEquals(0, queue.size());
+        assertEquals(0, queue.size());
         
-        Assert.assertSame(headEvent, headListener.event);
-        Assert.assertSame(tailEvent, tailListener.event);
+        assertSame(headEvent, headListener.event);
+        assertSame(tailEvent, tailListener.event);
     }
     
     private class StubListener implements Listener {

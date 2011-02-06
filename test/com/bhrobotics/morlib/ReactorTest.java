@@ -8,25 +8,25 @@ public class ReactorTest extends TestCase {
     private EventEmitter process = reactor.getProcess();
     
     public void testCtor() {
-        Assert.assertNotNull(reactor);
+        assertNotNull(reactor);
     }
     
     public void testQueue() {
-        Assert.assertNotNull(queue);
+        assertNotNull(queue);
     }
     
     public void testProcess() {
-        Assert.assertNotNull(process);
+        assertNotNull(process);
     }
     
     public void testIsTicking() {
-        Assert.assertFalse(reactor.isTicking());
+        assertFalse(reactor.isTicking());
         
         reactor.startTicking();
-        Assert.assertTrue(reactor.isTicking());
+        assertTrue(reactor.isTicking());
         
         reactor.stopTicking();
-        Assert.assertFalse(reactor.isTicking());
+        assertFalse(reactor.isTicking());
     }
     
     public void testForceTick() {
@@ -36,7 +36,7 @@ public class ReactorTest extends TestCase {
         reactor.forceTick();
         sleep(200);
         
-        Assert.assertTrue(listener.received);
+        assertTrue(listener.received);
     }
     
     public void testTick() {
@@ -54,14 +54,14 @@ public class ReactorTest extends TestCase {
         reactor.stopTicking();
         sleep(200);
         
-        Assert.assertTrue(startListener.received);
-        Assert.assertTrue(tickListener.received);
-        Assert.assertTrue(nextTickListener.received);
-        Assert.assertTrue(stopListener.received);
-        Assert.assertTrue(process.getListeners("start").contains(startListener));
-        Assert.assertTrue(process.getListeners("tick").contains(tickListener));
-        Assert.assertFalse(process.getListeners("nextTick").contains(nextTickListener));
-        Assert.assertTrue(process.getListeners("stop").contains(stopListener));
+        assertTrue(startListener.received);
+        assertTrue(tickListener.received);
+        assertTrue(nextTickListener.received);
+        assertTrue(stopListener.received);
+        assertTrue(process.getListeners("start").contains(startListener));
+        assertTrue(process.getListeners("tick").contains(tickListener));
+        assertFalse(process.getListeners("nextTick").contains(nextTickListener));
+        assertTrue(process.getListeners("stop").contains(stopListener));
     }
     
     private void sleep(long millis) {

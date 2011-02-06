@@ -10,8 +10,8 @@ public class HelloListenerTest extends TestCase {
     
     public void testTriggered() {
         HelloListener hello = new HelloListener();
-        Assert.assertFalse(hello.wasTriggered());
+        assertFalse(hello.wasTriggered());
         hello.handle(null);
-        Assert.assertTrue(hello.wasTriggered());
+        assertTrue(hello.wasTriggered());
     }
 }

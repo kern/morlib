@@ -1,4 +1,5 @@
 Testsuite: com.bhrobotics.morlib.TimeoutEmitterTest
-Tests run: 1, Failures: 0, Errors: 0, Time elapsed: 0.008 sec
+Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0.715 sec
 
-Testcase: testCtor took 0.004 sec
+Testcase: testCtor took 0.008 sec
+Testcase: testSchedule took 0.701 sec
