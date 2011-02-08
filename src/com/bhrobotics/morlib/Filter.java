@@ -4,53 +4,49 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 public abstract class Filter implements Listener {
-    protected EventEmitter emitter = new EventEmitter();
-    
-    public EventEmitter getEmitter() {
-        return emitter;
-    }
+    public abstract EventEmitter getEmitter();
     
     public Hashtable getListeners() {
-        return emitter.getListeners();
+        return getEmitter().getListeners();
     }
     
     public Vector getListeners(String event) {
-        return emitter.getListeners(event);
+        return getEmitter().getListeners(event);
     }
     
     public Vector getListeners(String event, boolean includeAll) {
-        return emitter.getListeners(event, includeAll);
+        return getEmitter().getListeners(event, includeAll);
     }
     
     public void bind(String event, Listener listener) {
-        emitter.bind(event, listener);
+        getEmitter().bind(event, listener);
     }
     
     public void unbind(String event, Listener listener) {
-        emitter.unbind(event, listener);
+        getEmitter().unbind(event, listener);
     }
     
     public void trigger(String name) {
-        emitter.trigger(name);
+        getEmitter().trigger(name);
     }
     
     public void trigger(String name, Hashtable data) {
-        emitter.trigger(name, data);
+        getEmitter().trigger(name, data);
     }
     
     public void trigger(String name, boolean flush) {
-        emitter.trigger(name, flush);
+        getEmitter().trigger(name, flush);
     }
     
     public void trigger(String name, Hashtable data, boolean flush) {
-        emitter.trigger(name, data, flush);
+        getEmitter().trigger(name, data, flush);
     }
     
     public void trigger(Event event) {
-        emitter.trigger(event);
+        getEmitter().trigger(event);
     }
     
     public void trigger(Event event, boolean flush) {
-        emitter.trigger(event, flush);
+        getEmitter().trigger(event, flush);
     }
 }

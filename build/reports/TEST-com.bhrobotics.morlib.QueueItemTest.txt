@@ -1,6 +1,6 @@
 Testsuite: com.bhrobotics.morlib.QueueItemTest
-Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0.008 sec
+Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0.005 sec
 
-Testcase: testListener took 0.001 sec
+Testcase: testListener took 0.002 sec
 Testcase: testCtor took 0 sec
 Testcase: testEvent took 0 sec

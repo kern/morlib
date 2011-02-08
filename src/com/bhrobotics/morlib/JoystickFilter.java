@@ -5,6 +5,7 @@ import java.util.Hashtable;
 
 // TODO: Test me.
 public class JoystickFilter extends Filter {
+    private EventEmitter emitter = new EventEmitter();
     private Joystick joystick1 = new Joystick(1);
     private Joystick joystick2 = new Joystick(2);
     private Joystick joystick3 = new Joystick(3);
@@ -28,6 +29,10 @@ public class JoystickFilter extends Filter {
         Hashtable joystick4Data = new Hashtable();
         joystick4Data.put("joystick", joystick4);
         trigger("updateJoystick4", joystick4Data);
+    }
+    
+    public EventEmitter getEmitter() {
+        return emitter;
     }
     
     public void bound(EventEmitter emitter, String event) {}

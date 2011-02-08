@@ -8,6 +8,10 @@ public class FilterTest extends TestCase {
     
     public void setUp() {
         filter = new Filter() {
+            public EventEmitter getEmitter() {
+                return new EventEmitter();
+            }
+            
             public void handle(Event event) {}
             public void bound(EventEmitter emitter, String event) {}
             public void unbound(EventEmitter emitter, String event) {}

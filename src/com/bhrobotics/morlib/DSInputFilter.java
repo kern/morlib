@@ -9,6 +9,7 @@ import java.util.Hashtable;
 public class DSInputFilter extends Filter {
     protected DriverStation ds = DriverStation.getInstance();
     protected DriverStationEnhancedIO dsEIO = ds.getEnhancedIO();
+    private EventEmitter emitter = new EventEmitter();
     
     private short oldDigitals;
     
@@ -47,6 +48,10 @@ public class DSInputFilter extends Filter {
     }
     
     public void unbound(EventEmitter emitter, String event) {}
+    
+    public EventEmitter getEmitter() {
+        return emitter;
+    }
     
     private void updateAll(boolean shouldEmit) {
         analog1.update(shouldEmit);
