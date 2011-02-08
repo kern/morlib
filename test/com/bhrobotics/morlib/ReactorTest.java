@@ -79,7 +79,7 @@ public class ReactorTest extends TestCase {
             received = true;
         }
         
-        public void bound(String event, EventEmitter emitter) {}
-        public void unbound(String event, EventEmitter emitter) {}
+        public void bound(EventEmitter emitter, String event) {}
+        public void unbound(EventEmitter emitter, String event) {}
     }
 }

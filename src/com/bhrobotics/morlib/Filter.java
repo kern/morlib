@@ -1,15 +1,25 @@
 package com.bhrobotics.morlib;
 
 import java.util.Hashtable;
+import java.util.Vector;
 
 public abstract class Filter implements Listener {
     protected EventEmitter emitter = new EventEmitter();
     
-    public void bound(String event, EventEmitter emitter) {}
-    public void unbound(String event, EventEmitter emitter) {}
-    
     public EventEmitter getEmitter() {
         return emitter;
+    }
+    
+    public Hashtable getListeners() {
+        return emitter.getListeners();
+    }
+    
+    public Vector getListeners(String event) {
+        return emitter.getListeners(event);
+    }
+    
+    public Vector getListeners(String event, boolean includeAll) {
+        return emitter.getListeners(event, includeAll);
     }
     
     public void bind(String event, Listener listener) {

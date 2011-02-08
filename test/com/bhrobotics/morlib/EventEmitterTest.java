@@ -80,11 +80,11 @@ public class EventEmitterTest extends TestCase {
             received = true;
         }
         
-        public void bound(String event, EventEmitter emitter) {
+        public void bound(EventEmitter emitter, String event) {
             boundReceived = true;
         }
         
-        public void unbound(String event, EventEmitter emitter) {
+        public void unbound(EventEmitter emitter, String event) {
             unboundReceived = true;
         }
     }

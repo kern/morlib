@@ -18,8 +18,8 @@ public class QueueItemTest extends TestCase {
     public void testListener() {
         Listener l = new Listener() {
             public void handle(Event event) {}
-            public void bound(String event, EventEmitter emitter) {}
-            public void unbound(String event, EventEmitter emitter) {}
+            public void bound(EventEmitter emitter, String event) {}
+            public void unbound(EventEmitter emitter, String event) {}
         };
         
         QueueItem item = new QueueItem(null, l);
