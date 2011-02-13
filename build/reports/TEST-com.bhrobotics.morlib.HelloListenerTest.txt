@@ -1,5 +1,5 @@
 Testsuite: com.bhrobotics.morlib.HelloListenerTest
-Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0.005 sec
+Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0.006 sec
 ------------- Standard Output ---------------
 Hello world!
 ------------- ---------------- ---------------

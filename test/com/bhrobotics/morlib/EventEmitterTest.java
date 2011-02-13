@@ -4,7 +4,7 @@ import junit.framework.*;
 import org.mockito.*;
 
 public class EventEmitterTest extends TestCase {
-    private Queue queue = Reactor.getInstance().getQueue();
+    private Queue queue = Reactor.getQueue();
     private EventEmitter emitter;
     
     public void setUp() {

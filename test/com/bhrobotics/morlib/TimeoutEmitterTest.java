@@ -7,12 +7,12 @@ public class TimeoutEmitterTest extends TestCase {
     TimeoutEmitter timeout;
     
     public void setUp() {
-        Reactor.getInstance().startTicking();
+        Reactor.startTicking();
         timeout = new TimeoutEmitter();
     }
     
     public void tearDown() {
-        Reactor.getInstance().stopTicking();
+        Reactor.stopTicking();
     }
     
     public void testCtor() {

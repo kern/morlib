@@ -2,9 +2,14 @@ package com.bhrobotics.morlib;
 
 import junit.framework.*;
 
-public class ReactorTest extends TestCase {
-    private Queue queue = Reactor.getQueue();
-    private EventEmitter process = Reactor.getProcess();
+public class ReactorInstanceTest extends TestCase {
+    private ReactorInstance reactor = ReactorInstance.getInstance();
+    private Queue queue = reactor.getQueue();
+    private EventEmitter process = reactor.getProcess();
+    
+    public void testCtor() {
+        assertNotNull(reactor);
+    }
     
     public void testQueue() {
         assertNotNull(queue);
@@ -15,20 +20,20 @@ public class ReactorTest extends TestCase {
     }
     
     public void testIsTicking() {
-        assertFalse(Reactor.isTicking());
+        assertFalse(reactor.isTicking());
         
-        Reactor.startTicking();
-        assertTrue(Reactor.isTicking());
+        reactor.startTicking();
+        assertTrue(reactor.isTicking());
         
-        Reactor.stopTicking();
-        assertFalse(Reactor.isTicking());
+        reactor.stopTicking();
+        assertFalse(reactor.isTicking());
     }
     
     public void testForceTick() {
         StubListener listener = new StubListener();
         process.bind("tick", listener);
         
-        Reactor.forceTick();
+        reactor.forceTick();
         sleep(200);
         
         assertTrue(listener.received);
@@ -44,9 +49,9 @@ public class ReactorTest extends TestCase {
         process.bind("nextTick", nextTickListener);
         process.bind("stop", stopListener);
         
-        Reactor.startTicking();
+        reactor.startTicking();
         sleep(200);
-        Reactor.stopTicking();
+        reactor.stopTicking();
         sleep(200);
         
         assertTrue(startListener.received);
