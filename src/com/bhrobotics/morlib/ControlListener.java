@@ -1,11 +1,10 @@
 package com.bhrobotics.morlib;
 
-// TODO: Test me.
 public class ControlListener implements Listener {
     private EventEmitter process = Reactor.getProcess();
     
     protected JoystickFilter joystickFilter = new JoystickFilter();
-    protected DSInputFilter dsInputFilter = new DSInputFilter();
+    protected DriverStationInputFilter dsInputFilter = new DriverStationInputFilter();
     
     public void handle(Event event) {
         String name = event.getName();

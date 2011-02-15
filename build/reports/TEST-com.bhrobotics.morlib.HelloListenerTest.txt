@@ -1,8 +1,0 @@
-Testsuite: com.bhrobotics.morlib.HelloListenerTest
-Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0.006 sec
-------------- Standard Output ---------------
-Hello world!
-------------- ---------------- ---------------
-
-Testcase: testCtor took 0.001 sec
-Testcase: testTriggered took 0 sec
