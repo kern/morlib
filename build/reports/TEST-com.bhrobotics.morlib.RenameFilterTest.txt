@@ -1,7 +1,7 @@
 Testsuite: com.bhrobotics.morlib.RenameFilterTest
-Tests run: 4, Failures: 0, Errors: 0, Time elapsed: 0.013 sec
+Tests run: 4, Failures: 0, Errors: 0, Time elapsed: 0.012 sec
 
-Testcase: testCtor took 0.003 sec
-Testcase: testEmitter took 0 sec
-Testcase: testAddLink took 0 sec
-Testcase: testFilterEvents took 0.003 sec
+Testcase: testCtor took 0.002 sec
+Testcase: testEmitter took 0.001 sec
+Testcase: testAddLink took 0.001 sec
+Testcase: testFilterEvents took 0.002 sec

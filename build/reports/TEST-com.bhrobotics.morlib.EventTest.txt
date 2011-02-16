@@ -1,5 +1,5 @@
 Testsuite: com.bhrobotics.morlib.EventTest
-Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0.006 sec
+Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0.13 sec
 
 Testcase: testName took 0.001 sec
 Testcase: testCtor took 0 sec
