@@ -1,0 +1,5 @@
+Testsuite: com.bhrobotics.morlib.ReverseFilterTest
+Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0.006 sec
+
+Testcase: testCtor took 0.001 sec
+Testcase: testReverse took 0 sec
